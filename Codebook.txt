@@ -1,0 +1,135 @@
+Codebook for Class Project
+Course: Getting and Cleaning Data
+Data Science Specialization
+Date: January 29, 2016
+
+
+Dataset: The included tidy dataset was constructed using data from the Human Activity
+Recognition Using Smart Phone Dataset Version 1.0 and contains summary mean and 
+standard devation information for selected measures collected from a group of 30 
+volunteer participants aged 19-48 years old. More detailed information and raw data 
+are publicly available and can be accessed via the following source:
+
+https://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+
+Variables: Data was originally collected from accelerometers and gyroscopes measured on a continuous scale of (t) time captured at a constant rate (50 HZ) on each of three axial parameters (X, Y, and Z) while subjects peformed one of six physical activities: (1) Walking, (2) Walkling Upstairs, (3) Walking Downstairs, (4) Sitting, (5) Standing, and (6) Laying. Measurements for the all of the component parameters on each subject occurred from data collected within fixed windows of 2.56 seconds (128 readings/window).
+
+Accelerometer (acc) data was used to separately estimate body acceleration (body) and gravity acceleration (gravity). Gyroscope (Gyro) data was captured in separate varibales from the accelerometer data. Body acceleration and angular velocity were used
+to obtain jerk signals (Jerk) from accelerometer and gyroscope data, respectively.
+Also, the mangitude (Mag) for each of these parameters was estimated using the Euclidean form. Last, a Fast Fourier Transformation (f) was applied to certain signals.
+
+In the original analytic dataset, there are a host of estimated values (mean, median, minimum, etc.) that were calculated and are included in the raw data. The mean and standard deviations for each window measurement of main feature vectors of the original analytic data set were extracted along with the corresponding physical activity 
+information and subject identifiers. A grand mean of the mean window measurements and the mean of the corresponding standard deviations were calculated for the extracted feature vectors by subject for each physical activity.
+
+The resulting tidy dataset has 180 rows for 64 feature vectors composed of the above estimates with the corresponding subject id and physical activity label.
+
+
+Variable List: A list and detailed description of the variables included in the tidy 
+dataset is provided below.
+
+1. "id" corresponding to unique subject identifiers (n=30)
+2. "activitylabel" corresponding to each the six physical activities performaned
+
+Summarized mean (mean) and standard deviation (std) feature vectors by id within each activity label are coded with specific acronyms that identify the type and source of the measurement signal. These are outlined below.
+
+-t : time
+-f : indicative of Fast Fourier Transformation to original time signal
+-body : indication for body acceleration measured via accelerometer
+-gravity : Indication for gravity acceleration measure via accelerometer
+-acc : Derived from accelerometer signal
+-gyro : Derived from gyyroscope signal
+-jerk : Jerk signals derived from body linear acceleration and angular velocity
+-mag : Magnitude of signals derived from
+-X,Z,Z : Reference to the axial plane of measurement
+
+The above indices can be used to interpet the summarized feature vectors below,  
+where the mean (mean) represents an average of average window meausurements and
+the corresponding standard deviavtions that were estimated for each physical activity
+by subject.
+
+3. "tbodyaccmeanx"           
+4. "tbodyaccmeany"            
+5. "tbodyaccmeanz"            
+6. "tbodyaccstdx"            
+7. "tbodyaccstdy"             
+8. "tbodyaccstdz"             
+9. "tgravityaccmeanx"        
+10. "tgravityaccmeany"         
+11. "tgravityaccmeanz"         
+12. "tgravityaccstdx"         
+13. "tgravityaccstdy"          
+14. "tgravityaccstdz"          
+15. "tbodyaccjerkmeanx"       
+16. "tbodyaccjerkmeany"        
+17. "tbodyaccjerkmeanz"        
+18. "tbodyaccjerkstdx"        
+19. "tbodyaccjerkstdy"         
+20. "tbodyaccjerkstdz"         
+21. "tbodygyromeanx"          
+22. "tbodygyromeany"           
+23. "tbodygyromeanz"           
+24. "tbodygyrostdx"           
+25. "tbodygyrostdy"            
+26. "tbodygyrostdz"            
+27. "tbodygyrojerkmeanx"      
+28. "tbodygyrojerkmeany"       
+29. "tbodygyrojerkmeanz"       
+30. "tbodygyrojerkstdx"       
+31. "tbodygyrojerkstdy"        
+32. "tbodygyrojerkstdz"        
+33. "tbodyaccmagmean"         
+34. "tbodyaccmagstd"           
+35. "tgravityaccmagmean"       
+36. "tgravityaccmagstd"       
+37. "tbodyaccjerkmagmean"      
+38. "tbodyaccjerkmagstd"       
+39. "tbodygyromagmean"        
+40. "tbodygyromagstd"          
+41. "tbodygyrojerkmagmean"     
+42. "tbodygyrojerkmagstd"     
+43. "fbodyaccmeanx"            
+44. "fbodyaccmeany"            
+45. "fbodyaccmeanz"           
+46. "fbodyaccstdx"             
+47. "fbodyaccstdy"             
+48. "fbodyaccstdz"            
+49. "fbodyaccjerkmeanx"        
+50. "fbodyaccjerkmeany"        
+51. "fbodyaccjerkmeanz"       
+52. "fbodyaccjerkstdx"         
+53. "fbodyaccjerkstdy"         
+54. "fbodyaccjerkstdz"         
+55. "fbodygyromeanx"           
+56. "fbodygyromeany"           
+57. "fbodygyromeanz"          
+58. "fbodygyrostdx"            
+59. "fbodygyrostdy"            
+60. "fbodygyrostdz"           
+61. "fbodyaccmagmean"          
+62. "fbodyaccmagstd"           
+63. "fbodybodyaccjerkmagmean" 
+64. "fbodybodyaccjerkmagstd"   
+65. "fbodybodygyromagmean"     
+66. "fbodybodygyromagstd"     
+67. "fbodybodygyrojerkmagmean" 
+68. "fbodybodygyrojerkmagstd" 
+
+
+Analytic File Creation: A detailed list of the steps for the preperation of the 
+tidy data set is outlined below.
+
+1. The original dataset was constructed from a training (_train.txt) and test (_test.txt) data, each of which has the three component text files: "subject", "X", and "Y." The "subject"" file contains participant id's, "X" file contains numerial data for calculated feature vectors, and "Y" for the activity codes associated with each window measurement.
+The three component files for the each of the two datasets were read in separately, merged by columns to create the individual training and test datasets, and the two
+dataframes then appended to create a single overall data sorted by id annd physical activity label.
+
+2. The overall dataframe was subsequently subsetted to only include vectors from the original 537 main features that contain the mean and standard deviations for each window measure for each of the primary signals. This was accomplished by identifying the character strings for the main feature vectors containing "mean()" and "std()" from the "features.txt" file. The positions of the feature vectors containing "mean()" and "std()" were used to subset out relavent columns from the overall dataframe. Additional vectors obtained by averaging the signals in a single window sample were excldued.
+
+3. Activity code data was subsequently converted to factor data and then labeled using the information provided in the "activity_labels.txt." The potential factor values (1-6) were label with the following strings: 1 = "Walking", 2 = "Walking_Upstairs", 3 = "Walking_Downstairs", 4 = "Sitting", 5 = "Standing", 6 = "Laying".
+
+4. Column vectors were then labeled with the character strings previously described in the list of variable names. The subject id and activity code vectors were labeled with the descriptors of "id" and "activitylabel." The feature vector names were extracted from the "features.txt" file. These vector names had non-alphabetic characters (e.g., "-") removed and the case of all letters was convered to lower using a function.
+
+5. The dataframe was grouped by subject id and physical activity code and each mean and standard deviation feature vectors were averaged by subject within each physical activity that was performed. The final resulting data frame consited of 180 columns and 68 rows and was outputted into a text file "second_tidy_df.txt". 
+
+
+
